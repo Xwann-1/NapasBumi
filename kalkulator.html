@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Jejak Karbon — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#1a6b3c,#0ea5e9)" class="py-8 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">🧮 Kalkulator Jejak Karbon</h1>
+    <p class="text-green-200 text-sm">Estimasi emisi CO₂ dari aktivitas sehari-hari Anda. Faktor emisi berbasis referensi IPCC & KLHK.</p>
+  </div>
+</div>
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Form Card -->
+  <div class="card p-6 mb-6">
+    <h2 class="font-bold text-lg mb-2 text-gray-800">📝 Masukkan Data Aktivitas Anda</h2>
+    <p class="text-gray-500 text-sm mb-6">Isi data aktivitas selama <strong>satu bulan</strong>. Kosongkan jika tidak berlaku.</p>
+
+    <form id="carbon-form" novalidate>
+
+      <!-- Section: Transportasi -->
+      <div class="mb-8">
+        <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-sm">🚗</span>
+          Transportasi
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Kendaraan Pribadi (km/bulan)</label>
+            <div class="flex gap-2">
+              <input id="km-car" type="number" min="0" max="10000" placeholder="0" class="form-input flex-1"/>
+              <select id="fuel-type" class="form-select" style="width:130px">
+                <option value="bensin">Bensin</option>
+                <option value="solar">Solar</option>
+                <option value="listrik">Listrik</option>
+              </select>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: Bensin 0.21 kg CO₂/km, Solar 0.27 kg CO₂/km</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Motor (km/bulan)</label>
+            <input id="km-motor" type="number" min="0" max="5000" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 0.11 kg CO₂/km</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Penerbangan Domestik (jam/bulan)</label>
+            <input id="hr-flight-dom" type="number" min="0" max="100" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 255 kg CO₂/jam penerbangan</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Penerbangan Internasional (jam/bulan)</label>
+            <input id="hr-flight-int" type="number" min="0" max="200" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 295 kg CO₂/jam penerbangan</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section: Energi -->
+      <div class="mb-8">
+        <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center text-sm">⚡</span>
+          Energi Rumah Tangga
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Konsumsi Listrik (kWh/bulan)</label>
+            <input id="kwh-electric" type="number" min="0" max="5000" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Grid Indonesia: 0.724 kg CO₂/kWh (PLN 2023)</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Gas LPG (kg/bulan)</label>
+            <input id="kg-lpg" type="number" min="0" max="100" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 3.0 kg CO₂e/kg LPG</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section: Konsumsi -->
+      <div class="mb-8">
+        <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center text-sm">🍽️</span>
+          Konsumsi &amp; Gaya Hidup
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Pola Makan</label>
+            <select id="diet-type" class="form-select">
+              <option value="omnivore">Omnivora (daging setiap hari)</option>
+              <option value="less-meat" selected>Kurang daging (3-4x/minggu)</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+            </select>
+            <p class="text-xs text-gray-400 mt-1">Sumber: FAO Food Carbon Footprint Index</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Belanja Pakaian Baru (item/bulan)</label>
+            <input id="clothes-items" type="number" min="0" max="100" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 8.5 kg CO₂e/item pakaian</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Sampah yang dibuang (kg/minggu)</label>
+            <input id="waste-kg" type="number" min="0" max="50" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 0.5 kg CO₂e/kg sampah (TPA)</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Streaming/Internet (jam/hari)</label>
+            <input id="hr-internet" type="number" min="0" max="24" placeholder="0" class="form-input"/>
+            <p class="text-xs text-gray-400 mt-1">Faktor emisi: 0.036 kg CO₂/jam streaming</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-3">
+        <button type="submit" class="btn-primary px-8 py-3">🧮 Hitung Jejak Karbon</button>
+        <button type="button" id="reset-form-btn" class="btn-secondary px-6 py-3">🔄 Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- RESULTS (hidden initially) -->
+  <div id="results-section" class="hidden">
+
+    <!-- Total emission -->
+    <div class="card p-6 mb-6" id="result-hero">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div class="text-center">
+          <div class="text-6xl font-black text-green-700" id="result-total">0</div>
+          <div class="text-gray-500 text-sm">kg CO₂e / bulan</div>
+          <div class="font-bold text-lg mt-1" id="result-annual">0 ton CO₂e / tahun</div>
+        </div>
+        <div class="flex-1">
+          <h2 class="font-bold text-xl mb-2">Jejak Karbon Anda</h2>
+          <p id="result-comparison" class="text-gray-500 text-sm mb-3"></p>
+          <div id="result-level-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold"></div>
+        </div>
+        <div class="text-center">
+          <canvas id="chart-pie" width="160" height="160"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breakdown -->
+    <div class="card p-6 mb-6">
+      <h3 class="font-bold text-gray-700 mb-4">📊 Rincian Emisi per Kategori</h3>
+      <div id="breakdown-list" class="space-y-3 mb-4"></div>
+      <canvas id="chart-breakdown-bar" height="80"></canvas>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="card p-6 mb-6">
+      <h3 class="font-bold text-gray-700 mb-4">💡 Rekomendasi Pengurangan Jejak Karbon</h3>
+      <div id="recommendations-list" class="space-y-3"></div>
+    </div>
+
+    <!-- Save to history -->
+    <div class="flex gap-3">
+      <button id="save-result-btn" class="btn-primary px-6 py-3">💾 Simpan ke Riwayat</button>
+      <a href="eco-action.html" class="btn-secondary px-6 py-3">🌱 Mulai Eco Action</a>
+    </div>
+  </div>
+
+  <!-- Info section -->
+  <div class="card p-6 mt-6">
+    <h3 class="font-bold text-gray-700 mb-3">ℹ️ Tentang Faktor Emisi yang Digunakan</h3>
+    <div class="grid sm:grid-cols-2 gap-4 text-sm text-gray-600">
+      <div>
+        <p class="font-semibold text-gray-700 mb-2">Sumber Referensi:</p>
+        <ul class="space-y-1">
+          <li>• IPCC AR6 (2021) — Faktor emisi global</li>
+          <li>• PLN — Emisi grid listrik Indonesia 2023</li>
+          <li>• KLHK — Faktor emisi transportasi nasional</li>
+          <li>• FAO — Jejak karbon pola makan</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-700 mb-2">Catatan Penting:</p>
+        <ul class="space-y-1">
+          <li>• Hasil ini adalah <strong>estimasi</strong>, bukan pengukuran akurat</li>
+          <li>• CO₂e mencakup berbagai gas rumah kaca</li>
+          <li>• Faktor emisi bervariasi berdasarkan kondisi nyata</li>
+          <li>• Rata-rata emisi warga Indonesia: ~2.3 ton CO₂/tahun</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Kalkulator Jejak Karbon</p>
+    <p class="text-xs" style="color:#4ade80">Faktor emisi berbasis IPCC AR6, PLN, KLHK, FAO</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/kalkulator.js"></script>
+</body>
+</html>

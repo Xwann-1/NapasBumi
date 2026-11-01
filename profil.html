@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profil Pengguna — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#1a6b3c,#0ea5e9)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">👤 Profil &amp; Riwayat Saya</h1>
+    <p class="text-green-200 text-sm">Lihat kontribusi lingkungan, riwayat kalkulator, dan progres Eco Action Anda.</p>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <div class="grid lg:grid-cols-3 gap-8">
+
+    <!-- Left: Profile card + Edit -->
+    <div class="lg:col-span-1">
+      <div class="card p-6 mb-6">
+        <!-- Avatar -->
+        <div class="flex flex-col items-center text-center mb-6">
+          <div id="avatar-display" class="w-20 h-20 rounded-full text-4xl flex items-center justify-center mb-3"
+               style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">
+            🌿
+          </div>
+          <h2 id="profile-name" class="text-xl font-bold text-gray-800">—</h2>
+          <p id="profile-email" class="text-gray-500 text-sm">—</p>
+          <p id="profile-location" class="text-gray-400 text-xs mt-0.5">📍 —</p>
+          <div id="profile-level-badge" class="mt-2 px-3 py-1 rounded-full text-sm font-semibold" style="background:#f0fdf4;color:#1a6b3c">—</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="rounded-xl p-3 text-center" style="background:#f0fdf4">
+            <div id="profile-points" class="text-2xl font-black text-green-700">0</div>
+            <div class="text-xs text-gray-500">Total Poin</div>
+          </div>
+          <div class="rounded-xl p-3 text-center" style="background:#fef9c3">
+            <div id="profile-actions" class="text-2xl font-black text-yellow-700">0</div>
+            <div class="text-xs text-gray-500">Aksi Selesai</div>
+          </div>
+          <div class="rounded-xl p-3 text-center" style="background:#e0f2fe">
+            <div id="profile-calcs" class="text-2xl font-black text-blue-700">0</div>
+            <div class="text-xs text-gray-500">Kalkulator</div>
+          </div>
+          <div class="rounded-xl p-3 text-center" style="background:#fff7ed">
+            <div id="profile-reports" class="text-2xl font-black text-orange-700">0</div>
+            <div class="text-xs text-gray-500">Laporan</div>
+          </div>
+        </div>
+
+        <p id="profile-join" class="text-center text-xs text-gray-400 mb-4">Bergabung: —</p>
+
+        <button id="edit-profile-btn" class="btn-secondary w-full">✏️ Edit Profil</button>
+      </div>
+
+      <!-- Edit Profile Form (hidden by default) -->
+      <div id="edit-profile-form" class="card p-5 hidden">
+        <h3 class="font-bold text-gray-700 mb-4">✏️ Edit Profil</h3>
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Nama</label>
+            <input id="edit-name" type="text" class="form-input mt-1" maxlength="100"/>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Email</label>
+            <input id="edit-email" type="email" class="form-input mt-1" maxlength="100"/>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Lokasi</label>
+            <input id="edit-location" type="text" class="form-input mt-1" maxlength="100"/>
+          </div>
+          <div class="flex gap-2">
+            <button id="save-profile-btn" class="btn-primary flex-1">💾 Simpan</button>
+            <button id="cancel-edit-btn" class="btn-secondary px-3">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Activity -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- Eco Actions completed -->
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-gray-700">🌱 Eco Action Selesai</h3>
+          <a href="eco-action.html" class="text-sm text-green-600 hover:underline">Lihat semua →</a>
+        </div>
+        <div id="completed-actions-list" class="space-y-2 max-h-64 overflow-y-auto">
+          <p class="text-gray-400 text-sm text-center py-4">Belum ada aksi diselesaikan.</p>
+        </div>
+      </div>
+
+      <!-- Carbon history chart -->
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-gray-700">🧮 Riwayat Jejak Karbon</h3>
+          <a href="kalkulator.html" class="text-sm text-green-600 hover:underline">Hitung lagi →</a>
+        </div>
+        <div id="carbon-history-container">
+          <p class="text-gray-400 text-sm text-center py-4">Belum ada riwayat perhitungan.</p>
+        </div>
+        <canvas id="chart-carbon-history" class="hidden mt-4" height="120"></canvas>
+      </div>
+
+      <!-- Reports submitted -->
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-gray-700">📋 Laporan Dikirimkan</h3>
+          <a href="laporan.html" class="text-sm text-green-600 hover:underline">Buat laporan →</a>
+        </div>
+        <div id="profile-reports-list" class="space-y-2 max-h-64 overflow-y-auto">
+          <p class="text-gray-400 text-sm text-center py-4">Belum ada laporan dikirimkan.</p>
+        </div>
+      </div>
+
+      <!-- Overall contribution -->
+      <div class="card p-5">
+        <h3 class="font-bold text-gray-700 mb-4">🌍 Total Kontribusi Estimasi</h3>
+        <p class="text-xs text-gray-400 mb-3">*Estimasi potensi dampak dari aksi yang ditandai. Bukan pengukuran emisi aktual terverifikasi.</p>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div id="total-co2-estimate" class="text-2xl font-black text-green-700">0</div>
+            <div class="text-xs text-gray-500">kg CO₂e (estimasi)</div>
+          </div>
+          <div>
+            <div id="total-trees-equiv" class="text-2xl font-black text-green-600">0</div>
+            <div class="text-xs text-gray-500">Setara pohon/tahun</div>
+          </div>
+          <div>
+            <div id="total-km-cars" class="text-2xl font-black text-blue-600">0</div>
+            <div class="text-xs text-gray-500">Setara km berkendara</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Profil Pengguna</p>
+    <p class="text-xs" style="color:#4ade80">Data tersimpan di browser lokal Anda</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/profil.js"></script>
+</body>
+</html>

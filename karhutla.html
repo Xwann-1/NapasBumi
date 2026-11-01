@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monitoring Karhutla — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#7f1d1d,#f97316)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">🔥 Monitoring Karhutla</h1>
+      <p class="text-orange-200 text-sm">Pemantauan kebakaran hutan dan lahan (karhutla) di Indonesia</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="simulated-badge">⚠️ Data Simulasi</span>
+      <span class="text-orange-200 text-xs">Ref: NASA FIRMS / LAPAN</span>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Stats Row -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="card p-4 text-center">
+      <div class="text-3xl mb-1">🔥</div>
+      <div class="text-3xl font-black" style="color:#ef4444" id="stat-total-hotspot">25</div>
+      <div class="text-sm text-gray-500">Total Titik Panas</div>
+    </div>
+    <div class="card p-4 text-center">
+      <div class="text-3xl mb-1">🔴</div>
+      <div class="text-3xl font-black" style="color:#b91c1c" id="stat-high">14</div>
+      <div class="text-sm text-gray-500">Kepercayaan Tinggi</div>
+    </div>
+    <div class="card p-4 text-center">
+      <div class="text-3xl mb-1">🌳</div>
+      <div class="text-3xl font-black" style="color:#b45309" id="stat-ha">48,700</div>
+      <div class="text-sm text-gray-500">Ha Lahan Terdampak</div>
+    </div>
+    <div class="card p-4 text-center">
+      <div class="text-3xl mb-1">💨</div>
+      <div class="text-3xl font-black" style="color:#7c3aed" id="stat-co2-k">124,500</div>
+      <div class="text-sm text-gray-500">Ton CO₂ Diemisikan</div>
+    </div>
+  </div>
+
+  <!-- Alert status -->
+  <div id="alert-status" class="rounded-xl p-4 mb-6 flex items-start gap-3" style="background:#fff7ed;border:2px solid #fed7aa">
+    <span class="text-2xl">⚠️</span>
+    <div>
+      <div class="font-bold text-orange-800">Status Siaga Karhutla — Kalimantan &amp; Sumatera</div>
+      <div class="text-orange-700 text-sm mt-1">Tingkat kepercayaan tinggi terdeteksi di Kalimantan Barat (3 titik) dan Sumatera Selatan (3 titik). Waspada asap dan penurunan kualitas udara.</div>
+    </div>
+  </div>
+
+  <!-- Map + Province Table -->
+  <div class="grid lg:grid-cols-3 gap-6 mb-6">
+    <!-- Map -->
+    <div class="lg:col-span-2 card p-4">
+      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <h2 class="font-bold text-gray-700">🗺️ Peta Persebaran Titik Panas</h2>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="inline-flex items-center gap-1"><span style="width:12px;height:12px;background:#ef4444;border-radius:50%;display:inline-block"></span>Tinggi</span>
+          <span class="inline-flex items-center gap-1"><span style="width:12px;height:12px;background:#f97316;border-radius:50%;display:inline-block"></span>Sedang</span>
+          <span class="inline-flex items-center gap-1"><span style="width:12px;height:12px;background:#eab308;border-radius:50%;display:inline-block"></span>Rendah</span>
+        </div>
+      </div>
+      <div id="map-karhutla" style="height:400px;border-radius:0.75rem"></div>
+      <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Data titik panas simulasi berdasarkan pola NASA FIRMS.</p>
+    </div>
+
+    <!-- Province table -->
+    <div class="card p-4">
+      <h2 class="font-bold text-gray-700 mb-4">📊 Hotspot per Provinsi</h2>
+      <div id="province-list" class="space-y-3">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div class="chart-container">
+      <h3 class="font-bold text-gray-700 mb-3">📈 Tren Harian Hotspot (14 Hari Terakhir)</h3>
+      <canvas id="chart-daily-hotspot" height="220"></canvas>
+    </div>
+    <div class="chart-container">
+      <h3 class="font-bold text-gray-700 mb-3">📅 Tren Bulanan Hotspot Nasional</h3>
+      <canvas id="chart-monthly-hotspot" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Edu section -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <div class="card p-5">
+      <div class="text-3xl mb-3">🌿</div>
+      <h3 class="font-bold text-gray-800 mb-2">Hubungan Karhutla & CO₂</h3>
+      <p class="text-gray-500 text-sm">Kebakaran hutan melepaskan CO₂ dan karbon tersimpan yang diakumulasi selama puluhan tahun. Satu hektar gambut terbakar menghasilkan 150–3.000 ton CO₂e tergantung kedalaman gambut.</p>
+    </div>
+    <div class="card p-5">
+      <div class="text-3xl mb-3">🌫️</div>
+      <h3 class="font-bold text-gray-800 mb-2">Dampak Asap Karhutla</h3>
+      <p class="text-gray-500 text-sm">Asap karhutla mengandung PM2.5 konsentrasi tinggi yang dapat menembus paru-paru dan aliran darah. Paparan jangka pendek memicu ISPA; paparan jangka panjang meningkatkan risiko kanker paru dan penyakit kardiovaskular.</p>
+    </div>
+    <div class="card p-5">
+      <div class="text-3xl mb-3">🌳</div>
+      <h3 class="font-bold text-gray-800 mb-2">Deforestasi &amp; Perubahan Iklim</h3>
+      <p class="text-gray-500 text-sm">Indonesia kehilangan tutupan hutan signifikan tiap tahun. Kehilangan hutan mengurangi kapasitas penyerapan CO₂ bumi, mempercepat pemanasan global, dan meningkatkan frekuensi karhutla di masa depan.</p>
+    </div>
+  </div>
+
+  <!-- Prevention tips -->
+  <div class="card p-6 mb-6">
+    <h2 class="font-bold text-xl text-gray-800 mb-4">🛡️ Pencegahan &amp; Tindakan</h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <h4 class="font-semibold text-orange-700 mb-3">Untuk Masyarakat</h4>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li class="flex items-start gap-2"><span class="text-green-600">✓</span> Jangan membakar lahan atau sampah sembarangan</li>
+          <li class="flex items-start gap-2"><span class="text-green-600">✓</span> Laporkan indikasi kebakaran ke 119 atau BNPB</li>
+          <li class="flex items-start gap-2"><span class="text-green-600">✓</span> Gunakan masker N95 jika kualitas udara menurun</li>
+          <li class="flex items-start gap-2"><span class="text-green-600">✓</span> Tutup jendela dan gunakan air purifier di rumah</li>
+          <li class="flex items-start gap-2"><span class="text-green-600">✓</span> Batasi aktivitas di luar ruangan saat asap pekat</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-blue-700 mb-3">Kontak Darurat</h4>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center gap-2 p-2 rounded-lg" style="background:#eff6ff">
+            <span class="text-blue-600">📞</span>
+            <div><strong>BNPB Call Center:</strong> 117 ext 145</div>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg" style="background:#eff6ff">
+            <span class="text-blue-600">📞</span>
+            <div><strong>Manggala Agni (KLHK):</strong> 021-5730358</div>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg" style="background:#eff6ff">
+            <span class="text-blue-600">🌐</span>
+            <div><strong>NASA FIRMS:</strong> <a href="https://firms.modaps.eosdis.nasa.gov" target="_blank" rel="noopener" class="text-blue-600 underline">firms.modaps.eosdis.nasa.gov</a></div>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg" style="background:#eff6ff">
+            <span class="text-blue-600">🌐</span>
+            <div><strong>SiPongi KLHK:</strong> <a href="http://sipongi.menlhk.go.id" target="_blank" rel="noopener" class="text-blue-600 underline">sipongi.menlhk.go.id</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hotspot list -->
+  <div class="card p-6">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <h2 class="font-bold text-gray-700">📋 Daftar Titik Panas Aktif</h2>
+      <div class="flex gap-2">
+        <select id="filter-confidence" class="form-select" style="width:auto">
+          <option value="all">Semua Kepercayaan</option>
+          <option value="high">Tinggi</option>
+          <option value="medium">Sedang</option>
+          <option value="low">Rendah</option>
+        </select>
+        <select id="filter-province" class="form-select" style="width:auto">
+          <option value="all">Semua Provinsi</option>
+        </select>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr style="border-bottom:2px solid #fef0e8">
+            <th class="text-left py-2 px-3 text-gray-600 font-semibold">ID</th>
+            <th class="text-left py-2 px-3 text-gray-600 font-semibold">Provinsi</th>
+            <th class="text-center py-2 px-3 text-gray-600 font-semibold">Koordinat</th>
+            <th class="text-center py-2 px-3 text-gray-600 font-semibold">Tipe</th>
+            <th class="text-center py-2 px-3 text-gray-600 font-semibold">Kepercayaan</th>
+            <th class="text-center py-2 px-3 text-gray-600 font-semibold">FRP (MW)</th>
+            <th class="text-center py-2 px-3 text-gray-600 font-semibold">Tanggal</th>
+          </tr>
+        </thead>
+        <tbody id="hotspot-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Monitoring Karhutla</p>
+    <p class="text-xs" style="color:#4ade80">Data simulasi — Referensi: NASA FIRMS, LAPAN, SiPongi KLHK</p>
+  </div>
+</footer>
+
+<script src="data/hotspot-data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/karhutla.js"></script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laporan Masyarakat — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#1e3a5f,#1a6b3c)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">📋 Laporan Masyarakat</h1>
+    <p class="text-green-200 text-sm">Laporkan kondisi lingkungan di sekitar Anda. Bersama kita jaga bumi.</p>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <div class="grid lg:grid-cols-2 gap-8">
+
+    <!-- FORM -->
+    <div>
+      <div class="card p-6 mb-6">
+        <h2 class="font-bold text-xl text-gray-800 mb-1">📝 Buat Laporan Baru</h2>
+        <p class="text-gray-500 text-sm mb-6">Isi form berikut untuk melaporkan kondisi lingkungan. Data Anda disimpan lokal.</p>
+
+        <form id="report-form" novalidate>
+
+          <!-- Kategori -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-category">
+              Kategori Kejadian <span class="text-red-500">*</span>
+            </label>
+            <select id="report-category" class="form-select" required>
+              <option value="">-- Pilih Kategori --</option>
+              <option value="kebakaran">🔥 Indikasi Kebakaran</option>
+              <option value="asap">🌫️ Asap Pekat</option>
+              <option value="pencemaran-air">💧 Pencemaran Air</option>
+              <option value="pencemaran-udara">💨 Pencemaran Udara</option>
+              <option value="pembuangan-ilegal">🗑️ Pembuangan Sampah Ilegal</option>
+              <option value="deforestasi">🌳 Indikasi Pembalakan Liar</option>
+              <option value="lainnya">❓ Lainnya</option>
+            </select>
+            <div class="form-error-msg">Pilih kategori kejadian.</div>
+          </div>
+
+          <!-- Lokasi -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-location">
+              Lokasi Kejadian <span class="text-red-500">*</span>
+            </label>
+            <input id="report-location" type="text" placeholder="Contoh: Jl. Merdeka No.5, Kelurahan..., Kecamatan..., Kab/Kota..."
+                   class="form-input" maxlength="200" required/>
+            <div class="form-error-msg">Masukkan lokasi kejadian.</div>
+          </div>
+
+          <!-- Tanggal -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-date">
+              Tanggal Kejadian <span class="text-red-500">*</span>
+            </label>
+            <input id="report-date" type="date" class="form-input" required/>
+            <div class="form-error-msg">Masukkan tanggal kejadian.</div>
+          </div>
+
+          <!-- Tingkat Keparahan -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Tingkat Keparahan</label>
+            <div class="flex gap-3 flex-wrap">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="severity" value="rendah" class="text-green-600"/> <span class="text-sm">🟢 Rendah</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="severity" value="sedang" checked class="text-yellow-600"/> <span class="text-sm">🟡 Sedang</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="severity" value="tinggi" class="text-red-600"/> <span class="text-sm">🔴 Tinggi</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="severity" value="darurat" class="text-purple-600"/> <span class="text-sm">🚨 Darurat</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Deskripsi -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-description">
+              Deskripsi Kejadian <span class="text-red-500">*</span>
+            </label>
+            <textarea id="report-description" rows="4" maxlength="1000"
+                      placeholder="Jelaskan kondisi yang Anda temukan secara detail. Semakin detail informasi, semakin mudah ditindaklanjuti..."
+                      class="form-textarea" required></textarea>
+            <div class="flex justify-between">
+              <div class="form-error-msg">Deskripsi minimal 20 karakter.</div>
+              <span id="desc-count" class="text-xs text-gray-400">0/1000</span>
+            </div>
+          </div>
+
+          <!-- Nama Pelapor (Opsional) -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-name">
+              Nama Pelapor <span class="text-gray-400 text-xs">(Opsional, bisa anonim)</span>
+            </label>
+            <input id="report-name" type="text" placeholder="Nama Anda atau 'Anonim'" class="form-input" maxlength="100"/>
+          </div>
+
+          <!-- Kontak -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-1" for="report-contact">
+              Email/Telepon <span class="text-gray-400 text-xs">(Opsional — untuk tindak lanjut)</span>
+            </label>
+            <input id="report-contact" type="text" placeholder="email@example.com atau 08xx-xxxx-xxxx" class="form-input" maxlength="100"/>
+          </div>
+
+          <!-- Submit -->
+          <div class="flex gap-3">
+            <button type="submit" class="btn-primary flex-1 py-3">📤 Kirim Laporan</button>
+            <button type="button" id="clear-form-btn" class="btn-secondary px-4 py-3">🔄</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Emergency Contacts -->
+      <div class="card p-5">
+        <h3 class="font-bold text-gray-800 mb-3">📞 Kontak Darurat Lingkungan</h3>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center gap-3 p-2 rounded-lg" style="background:#fee2e2">
+            <span class="text-xl">🚒</span>
+            <div><strong>Pemadam Kebakaran:</strong> <a href="tel:113" class="text-red-600 font-bold">113</a></div>
+          </div>
+          <div class="flex items-center gap-3 p-2 rounded-lg" style="background:#eff6ff">
+            <span class="text-xl">🆘</span>
+            <div><strong>BNPB (Bencana Nasional):</strong> <a href="tel:117" class="text-blue-600 font-bold">117</a> ext 145</div>
+          </div>
+          <div class="flex items-center gap-3 p-2 rounded-lg" style="background:#f0fdf4">
+            <span class="text-xl">🌿</span>
+            <div><strong>Manggala Agni (Karhutla KLHK):</strong> 021-5730358</div>
+          </div>
+          <div class="flex items-center gap-3 p-2 rounded-lg" style="background:#fef9c3">
+            <span class="text-xl">🏥</span>
+            <div><strong>Emergency:</strong> <a href="tel:119" class="text-yellow-700 font-bold">119</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTS LIST -->
+    <div>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-bold text-xl text-gray-800">📊 Laporan Terkirim</h2>
+        <div class="flex gap-2">
+          <select id="filter-status" class="form-select" style="width:auto">
+            <option value="all">Semua Status</option>
+            <option value="pending">Pending</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="resolved">Resolved</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="card p-3 text-center">
+          <div class="text-xl font-black text-gray-700" id="count-total">0</div>
+          <div class="text-xs text-gray-500">Total</div>
+        </div>
+        <div class="card p-3 text-center">
+          <div class="text-xl font-black text-yellow-600" id="count-pending">0</div>
+          <div class="text-xs text-gray-500">Pending</div>
+        </div>
+        <div class="card p-3 text-center">
+          <div class="text-xl font-black text-green-600" id="count-resolved">0</div>
+          <div class="text-xs text-gray-500">Resolved</div>
+        </div>
+      </div>
+
+      <div id="reports-list" class="space-y-3">
+        <!-- Populated by JS -->
+        <div class="text-center py-12 text-gray-400">
+          <div class="text-4xl mb-2">📭</div>
+          <p>Belum ada laporan. Kirimkan laporan pertama Anda!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Laporan Masyarakat</p>
+    <p class="text-xs" style="color:#4ade80">Laporan disimpan lokal. Untuk laporan resmi, hubungi BNPB atau KLHK.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/laporan.js"></script>
+</body>
+</html>

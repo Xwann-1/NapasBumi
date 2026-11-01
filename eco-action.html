@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eco Action — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#064e3b,#1a6b3c)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">🌱 Eco Action — Aksi Nyata untuk Bumi</h1>
+      <p class="text-green-200 text-sm">Tandai aksi hijau yang telah Anda lakukan dan kumpulkan poin kontribusi lingkungan.</p>
+    </div>
+    <!-- Points display -->
+    <div class="bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center">
+      <div class="text-3xl font-black text-yellow-300" id="header-points">0</div>
+      <div class="text-green-200 text-xs">Poin Terkumpul</div>
+      <div class="text-white text-sm font-semibold mt-0.5" id="header-level">Penjaga Bumi Pemula</div>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Progress Card -->
+  <div class="card p-6 mb-6">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+      <div>
+        <h2 class="font-bold text-xl text-gray-800" id="progress-title">Level 1 — Penjaga Bumi Pemula</h2>
+        <p class="text-gray-500 text-sm" id="progress-subtitle">Selesaikan aksi untuk naik level dan dapatkan pencapaian</p>
+      </div>
+      <button id="reset-actions-btn" class="text-xs text-gray-400 hover:text-red-500 px-3 py-1.5 rounded border border-gray-200 hover:border-red-300">↺ Reset Semua</button>
+    </div>
+    <div class="grid sm:grid-cols-4 gap-4 mb-4">
+      <div class="text-center p-3 rounded-xl" style="background:#f0fdf4">
+        <div class="text-2xl font-black text-green-700" id="stat-completed">0</div>
+        <div class="text-xs text-gray-500">Aksi Selesai</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#fef9c3">
+        <div class="text-2xl font-black text-yellow-700" id="stat-points">0</div>
+        <div class="text-xs text-gray-500">Total Poin</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#e0f2fe">
+        <div class="text-2xl font-black text-blue-700" id="stat-co2-saved">0</div>
+        <div class="text-xs text-gray-500">Estimasi kg CO₂ dikurangi</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#f3e8ff">
+        <div class="text-2xl font-black text-purple-700" id="stat-streak">0</div>
+        <div class="text-xs text-gray-500">Hari Berturut-turut</div>
+      </div>
+    </div>
+    <!-- Level progress bar -->
+    <div class="mb-2">
+      <div class="flex justify-between text-xs text-gray-500 mb-1">
+        <span id="level-from">0 poin</span>
+        <span id="level-progress-pct">0%</span>
+        <span id="level-to">50 poin</span>
+      </div>
+      <div class="progress-bar" style="height:12px">
+        <div id="level-progress-fill" class="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="text-xs text-gray-400 text-center" id="level-next-label"></div>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="flex flex-wrap gap-2 mb-6" id="category-filters">
+    <button class="tab-btn active" data-cat="all">🌿 Semua</button>
+    <button class="tab-btn" data-cat="transport">🚌 Transportasi</button>
+    <button class="tab-btn" data-cat="energy">⚡ Energi</button>
+    <button class="tab-btn" data-cat="food">🥗 Makanan</button>
+    <button class="tab-btn" data-cat="waste">♻️ Sampah</button>
+    <button class="tab-btn" data-cat="nature">🌳 Alam & Hutan</button>
+    <button class="tab-btn" data-cat="community">🤝 Komunitas</button>
+  </div>
+
+  <!-- Actions grid -->
+  <div id="actions-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Achievements -->
+  <div class="card p-6">
+    <h2 class="font-bold text-gray-800 mb-4">🏆 Pencapaian</h2>
+    <div id="achievements-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Impact chart -->
+  <div class="chart-container mt-6">
+    <h3 class="font-bold text-gray-700 mb-3">📊 Estimasi Dampak Aksi Anda</h3>
+    <p class="text-xs text-gray-400 mb-3">*Estimasi potensi pengurangan emisi berdasarkan aksi yang ditandai. Bukan pengukuran emisi aktual yang terverifikasi.</p>
+    <canvas id="chart-impact" height="100"></canvas>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Eco Action</p>
+    <p class="text-xs" style="color:#4ade80">Estimasi dampak bukan klaim pengurangan emisi terverifikasi</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/eco-action.js"></script>
+</body>
+</html>

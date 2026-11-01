@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="NapasBumi — Platform pemantauan kualitas udara, kalkulator jejak karbon, dan aksi nyata untuk lingkungan Indonesia."/>
+  <title>NapasBumi — Breathe Better, Live Better</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- Skip to content (accessibility) -->
+<a class="skip-link" href="#main-content">Langsung ke konten</a>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────────────────── -->
+<nav class="navbar" role="navigation" aria-label="Navigasi utama">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 no-underline" aria-label="NapasBumi Beranda">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg font-bold"
+             style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <div>
+          <span class="nav-logo-text" style="color:#1a6b3c">Napas</span><span class="nav-logo-text" style="color:#0ea5e9">Bumi</span>
+          <p class="text-xs text-gray-400 leading-none hidden sm:block" style="font-family:var(--font-nav);letter-spacing:0.04em">Breathe Better, Live Better</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html"      class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html"  class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html"   class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html"    class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html"    class="nav-link">📋 Laporan</a>
+        <a href="profil.html"     class="nav-link">👤 Profil</a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+              aria-label="Buka menu" aria-expanded="false">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html"      class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html"  class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html"   class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html"    class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html"    class="nav-link">📋 Laporan</a>
+      <a href="profil.html"     class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────────────────────── -->
+<section class="hero-bg relative min-h-screen flex items-center" id="main-content" role="banner">
+  <!-- Floating particles -->
+  <div class="hero-particles" aria-hidden="true">
+    <div class="particle" style="width:8px;height:8px;left:10%;animation-duration:12s;animation-delay:0s"></div>
+    <div class="particle" style="width:12px;height:12px;left:25%;animation-duration:16s;animation-delay:2s"></div>
+    <div class="particle" style="width:6px;height:6px;left:40%;animation-duration:10s;animation-delay:4s"></div>
+    <div class="particle" style="width:10px;height:10px;left:60%;animation-duration:14s;animation-delay:1s"></div>
+    <div class="particle" style="width:7px;height:7px;left:75%;animation-duration:18s;animation-delay:3s"></div>
+    <div class="particle" style="width:9px;height:9px;left:90%;animation-duration:11s;animation-delay:5s"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 w-full">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Text -->
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/10 text-green-200 text-sm font-medium px-4 py-2 rounded-full mb-6 border border-white/20">
+          <span class="aqi-dot good"></span>
+          Platform Pemantauan Lingkungan Indonesia
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+          One Planet.<br/>
+          <span style="color:#86efac">One Breath.</span><br/>
+          One Responsibility.
+        </h1>
+        <p class="text-lg text-green-100 mb-8 max-w-lg leading-relaxed">
+          Pantau kualitas udara, pahami jejak karbon, dan mulai aksi nyata untuk menjaga bumi tetap layak dihuni.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="dashboard.html" class="btn-primary text-base px-6 py-3">
+            📊 Lihat Dashboard
+          </a>
+          <a href="kalkulator.html" class="btn-secondary text-base px-6 py-3"
+             style="background:transparent;color:white;border-color:rgba(255,255,255,0.5)">
+            🧮 Hitung Jejak Karbon
+          </a>
+        </div>
+
+        <!-- Quick stats -->
+        <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/20">
+          <div class="text-center">
+            <div id="hero-aqi-count" class="text-3xl font-extrabold text-white">0</div>
+            <div class="text-green-200 text-xs mt-1">Lokasi Terpantau</div>
+          </div>
+          <div class="text-center">
+            <div id="hero-hotspot-count" class="text-3xl font-extrabold text-white">0</div>
+            <div class="text-green-200 text-xs mt-1">Titik Panas Hari Ini</div>
+          </div>
+          <div class="text-center">
+            <div id="hero-user-count" class="text-3xl font-extrabold text-white">0</div>
+            <div class="text-green-200 text-xs mt-1">Aksi Lingkungan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live AQI Card -->
+      <div class="flex justify-center lg:justify-end">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-sm text-white">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-semibold">Kualitas Udara Sekarang</span>
+            <span class="simulated-badge">⚠️ Simulasi</span>
+          </div>
+          <!-- Location selector (custom dropdown for cross-browser readability) -->
+          <div id="hero-location-dropdown" class="relative mb-4" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+            <!-- Trigger button -->
+            <button type="button" id="hero-location-btn"
+                    class="w-full flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+                    style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3)"
+                    aria-label="Pilih kota">
+              <span id="hero-location-label">Jakarta, DKI Jakarta</span>
+              <svg id="hero-dropdown-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                   style="flex-shrink:0;transition:transform 0.2s">
+                <path d="M4 6l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <!-- Option list -->
+            <ul id="hero-location-list" role="listbox"
+                class="hidden absolute left-0 right-0 top-full mt-1 rounded-xl overflow-hidden z-50"
+                style="background:#0f3d22;border:1px solid rgba(255,255,255,0.2);box-shadow:0 8px 24px rgba(0,0,0,0.4)">
+              <li role="option" aria-selected="true"  data-value="jakarta"    class="hero-location-option selected">Jakarta, DKI Jakarta</li>
+              <li role="option" aria-selected="false" data-value="pekanbaru"  class="hero-location-option">Pekanbaru, Riau</li>
+              <li role="option" aria-selected="false" data-value="pontianak"  class="hero-location-option">Pontianak, Kalimantan Barat</li>
+              <li role="option" aria-selected="false" data-value="yogyakarta" class="hero-location-option">Yogyakarta, DIY</li>
+            </ul>
+            <!-- Hidden native select kept for value reference -->
+            <select id="hero-location-select" class="sr-only" aria-hidden="true" tabindex="-1">
+              <option value="jakarta">Jakarta, DKI Jakarta</option>
+              <option value="pekanbaru">Pekanbaru, Riau</option>
+              <option value="pontianak">Pontianak, Kalimantan Barat</option>
+              <option value="yogyakarta">Yogyakarta, DIY</option>
+            </select>
+          </div>
+          <!-- AQI Display -->
+          <div class="text-center mb-4">
+            <div id="hero-aqi-value" class="text-7xl font-black" style="color:#fbbf24">128</div>
+            <div id="hero-aqi-label" class="text-orange-200 font-semibold mt-1">Tidak Sehat (Sensitif)</div>
+          </div>
+          <!-- Metrics grid -->
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-white/10 rounded-xl p-2">
+              <div id="hero-pm25" class="text-lg font-bold text-yellow-300">47.3</div>
+              <div class="text-xs text-green-200">PM2.5 µg/m³</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-2">
+              <div id="hero-pm10" class="text-lg font-bold text-orange-300">82.1</div>
+              <div class="text-xs text-green-200">PM10 µg/m³</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-2">
+              <div id="hero-co2" class="text-lg font-bold text-sky-300">412</div>
+              <div class="text-xs text-green-200">CO₂ ppm</div>
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+            <a href="dashboard.html" class="text-green-300 text-sm hover:text-white underline">Lihat detail lengkap →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ALERT BANNER ──────────────────────────────────────────────────────────── -->
+<div class="bg-orange-50 border-b-2 border-orange-200 py-3 px-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 text-sm">
+    <span class="text-orange-600 font-semibold">🔥 Siaga Karhutla:</span>
+    <span class="text-orange-700">25 titik panas aktif terdeteksi hari ini — Kalimantan Barat &amp; Sumatera Selatan status Siaga.</span>
+    <a href="karhutla.html" class="text-orange-600 font-bold underline hover:text-orange-800">Lihat peta →</a>
+  </div>
+</div>
+
+<!-- ── FEATURES OVERVIEW ──────────────────────────────────────────────────────── -->
+<section class="py-20 px-4" id="features">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">
+        Platform Lengkap untuk <span class="gradient-text">Aksi Lingkungan</span>
+      </h2>
+      <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+        Dari pemantauan real-time hingga kalkulator jejak karbon — semua yang Anda butuhkan dalam satu platform.
+      </p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Feature cards -->
+      <a href="dashboard.html" class="card p-6 group cursor-pointer no-underline block">
+        <div class="text-4xl mb-4">📊</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Dashboard Kualitas Udara</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Pantau AQI, PM2.5, PM10, dan CO₂ dari 10 kota di Indonesia secara interaktif dengan grafik waktu nyata.</p>
+        <span class="inline-block mt-3 text-green-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Buka Dashboard →</span>
+      </a>
+
+      <a href="karhutla.html" class="card p-6 group cursor-pointer no-underline block"
+         style="border-top:3px solid #f97316">
+        <div class="text-4xl mb-4">🔥</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Monitoring Karhutla</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Peta persebaran titik panas, statistik kebakaran hutan dan lahan, serta informasi perkembangannya per wilayah.</p>
+        <span class="inline-block mt-3 text-orange-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Lihat Peta →</span>
+      </a>
+
+      <a href="kalkulator.html" class="card p-6 group cursor-pointer no-underline block">
+        <div class="text-4xl mb-4">🧮</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Kalkulator Jejak Karbon</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Hitung estimasi emisi CO₂ Anda dari transportasi, listrik, konsumsi, dan gaya hidup. Dapatkan rekomendasi personal.</p>
+        <span class="inline-block mt-3 text-green-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Hitung Sekarang →</span>
+      </a>
+
+      <a href="eco-action.html" class="card p-6 group cursor-pointer no-underline block">
+        <div class="text-4xl mb-4">🌱</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Eco Action</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Daftar aksi nyata untuk bumi: dari transportasi hijau, hemat energi, tanam pohon, hingga kurangi sampah. Kumpulkan poin!</p>
+        <span class="inline-block mt-3 text-green-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Mulai Aksi →</span>
+      </a>
+
+      <a href="edukasi.html" class="card p-6 group cursor-pointer no-underline block">
+        <div class="text-4xl mb-4">📚</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Edukasi Lingkungan</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Artikel informatif tentang emisi karbon, perubahan iklim, dampak karhutla, polusi udara, dan kesehatan masyarakat.</p>
+        <span class="inline-block mt-3 text-green-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Baca Artikel →</span>
+      </a>
+
+      <a href="laporan.html" class="card p-6 group cursor-pointer no-underline block">
+        <div class="text-4xl mb-4">📋</div>
+        <h3 class="font-bold text-lg mb-2 text-gray-800">Laporan Masyarakat</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Laporkan indikasi kebakaran, asap pekat, atau pencemaran di sekitar Anda. Pantau status laporan secara langsung.</p>
+        <span class="inline-block mt-3 text-green-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">Buat Laporan →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS SECTION ────────────────────────────────────────────────────────── -->
+<section class="py-16 px-4" style="background:linear-gradient(135deg,#f0fdf4,#e0f2fe)">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-center text-2xl font-bold mb-10 text-gray-700">Kondisi Lingkungan Indonesia Saat Ini <span class="simulated-badge ml-2">⚠️ Simulasi</span></h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div class="card p-6 text-center">
+        <div class="text-4xl mb-2">🌫️</div>
+        <div class="stat-number" id="stat-polluted-cities">0</div>
+        <div class="text-gray-500 text-sm mt-1">Kota dengan Udara Tidak Sehat</div>
+      </div>
+
+      <div class="card p-6 text-center">
+        <div class="text-4xl mb-2">🔥</div>
+        <div class="stat-number" id="stat-hotspots" style="background:linear-gradient(135deg,#f97316,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">0</div>
+        <div class="text-gray-500 text-sm mt-1">Titik Panas Aktif</div>
+      </div>
+
+      <div class="card p-6 text-center">
+        <div class="text-4xl mb-2">🌳</div>
+        <div class="stat-number" id="stat-hectares">0</div>
+        <div class="text-gray-500 text-sm mt-1">Hektar Lahan Terdampak</div>
+      </div>
+
+      <div class="card p-6 text-center">
+        <div class="text-4xl mb-2">💨</div>
+        <div class="stat-number" id="stat-co2-tons">0</div>
+        <div class="text-gray-500 text-sm mt-1">Ton CO₂ dari Karhutla</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ────────────────────────────────────────────────────────── -->
+<section class="py-20 px-4">
+  <div class="max-w-5xl mx-auto text-center">
+    <h2 class="text-3xl font-extrabold mb-4">Bagaimana NapasBumi Bekerja?</h2>
+    <p class="text-gray-500 mb-14 max-w-xl mx-auto">Tiga langkah mudah untuk mulai berkontribusi terhadap lingkungan yang lebih baik.</p>
+    <div class="grid sm:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-4" style="background:#d1fae5">📡</div>
+        <div class="w-8 h-1 bg-green-600 rounded mx-auto mb-3"></div>
+        <h3 class="font-bold text-lg mb-2">1. Pantau</h3>
+        <p class="text-gray-500 text-sm">Lihat kondisi kualitas udara dan titik panas di lokasi Anda secara real-time.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-4" style="background:#fef9c3">📈</div>
+        <div class="w-8 h-1 bg-yellow-500 rounded mx-auto mb-3"></div>
+        <h3 class="font-bold text-lg mb-2">2. Pahami</h3>
+        <p class="text-gray-500 text-sm">Hitung jejak karbon Anda dan pelajari dampak aktivitas sehari-hari terhadap iklim.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-4" style="background:#dbeafe">🌿</div>
+        <div class="w-8 h-1 bg-blue-500 rounded mx-auto mb-3"></div>
+        <h3 class="font-bold text-lg mb-2">3. Bertindak</h3>
+        <p class="text-gray-500 text-sm">Lakukan aksi nyata, kumpulkan poin, dan buat laporan lingkungan untuk daerah Anda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AQI LEGEND ─────────────────────────────────────────────────────────── -->
+<section class="py-14 px-4" style="background:#f8fafc">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-8">Panduan Indeks Kualitas Udara (AQI)</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div class="text-center p-3 rounded-xl" style="background:#d1fae5">
+        <div class="text-2xl font-black text-green-700">0–50</div>
+        <div class="font-semibold text-green-800 text-sm mt-1">Baik</div>
+        <div class="text-green-600 text-xs mt-1">Aktivitas bebas</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#fef9c3">
+        <div class="text-2xl font-black text-yellow-700">51–100</div>
+        <div class="font-semibold text-yellow-800 text-sm mt-1">Sedang</div>
+        <div class="text-yellow-600 text-xs mt-1">Pertimbangkan aktivitas luar</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#ffedd5">
+        <div class="text-2xl font-black text-orange-700">101–150</div>
+        <div class="font-semibold text-orange-800 text-sm mt-1">Sensitif</div>
+        <div class="text-orange-600 text-xs mt-1">Batasi aktivitas luar</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#fee2e2">
+        <div class="text-2xl font-black text-red-700">151–200</div>
+        <div class="font-semibold text-red-800 text-sm mt-1">Tidak Sehat</div>
+        <div class="text-red-600 text-xs mt-1">Hindari aktivitas luar</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#f3e8ff">
+        <div class="text-2xl font-black text-purple-700">201–300</div>
+        <div class="font-semibold text-purple-800 text-sm mt-1">Sangat Tidak Sehat</div>
+        <div class="text-purple-600 text-xs mt-1">Tetap di dalam ruangan</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:#fce7f3">
+        <div class="text-2xl font-black text-pink-700">301+</div>
+        <div class="font-semibold text-pink-800 text-sm mt-1">Berbahaya</div>
+        <div class="text-pink-600 text-xs mt-1">Kondisi darurat</div>
+      </div>
+    </div>
+    <p class="text-center text-xs text-gray-400 mt-4">Skala AQI berdasarkan standar KLHK/EPA. Sumber: Kementerian Lingkungan Hidup dan Kehutanan RI.</p>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
+<section class="py-20 px-4" style="background:linear-gradient(135deg,#0a3d1f,#1a6b3c)">
+  <div class="max-w-3xl mx-auto text-center text-white">
+    <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Mulai Perjalanan Hijau Anda Hari Ini</h2>
+    <p class="text-green-200 text-lg mb-8">Setiap aksi kecil membuat perbedaan nyata. Bergabunglah dengan ribuan warga yang peduli terhadap masa depan bumi.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="kalkulator.html" class="btn-primary px-8 py-4 text-base">🧮 Hitung Jejak Karbon Saya</a>
+      <a href="eco-action.html" class="btn-secondary px-8 py-4 text-base"
+         style="background:transparent;color:white;border-color:rgba(255,255,255,0.5)">🌱 Mulai Eco Action</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+<footer class="py-12 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-2xl">🌿</span>
+          <span class="text-white font-bold text-lg">NapasBumi</span>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:#6ee7b7">Platform pemantauan dan aksi lingkungan untuk Indonesia yang lebih hijau, sehat, dan lestari.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-3">Fitur</h4>
+        <ul class="space-y-2 text-sm" style="color:#6ee7b7">
+          <li><a href="dashboard.html" class="hover:text-white">Dashboard Kualitas Udara</a></li>
+          <li><a href="karhutla.html" class="hover:text-white">Monitoring Karhutla</a></li>
+          <li><a href="kalkulator.html" class="hover:text-white">Kalkulator Jejak Karbon</a></li>
+          <li><a href="eco-action.html" class="hover:text-white">Eco Action</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-3">Informasi</h4>
+        <ul class="space-y-2 text-sm" style="color:#6ee7b7">
+          <li><a href="edukasi.html" class="hover:text-white">Edukasi Lingkungan</a></li>
+          <li><a href="laporan.html" class="hover:text-white">Laporan Masyarakat</a></li>
+          <li><a href="profil.html" class="hover:text-white">Profil Pengguna</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-3">Sumber Data</h4>
+        <ul class="space-y-2 text-sm" style="color:#6ee7b7">
+          <li>BMKG — Kualitas Udara</li>
+          <li>KLHK — Data Karhutla</li>
+          <li>NASA FIRMS — Hotspot</li>
+          <li>OpenAQ — AQI API</li>
+        </ul>
+        <p class="text-xs mt-3" style="color:#34d399">⚠️ Data saat ini adalah simulasi. Belum terhubung API live.</p>
+      </div>
+    </div>
+    <div class="border-t border-green-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi. Dibuat dengan 💚 untuk Bumi yang Lebih Baik.</p>
+      <p class="text-xs" style="color:#4ade80">Data simulasi bukan data real-time. Gunakan sumber resmi untuk keputusan kritis.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Custom dropdown styles -->
+<style>
+  .hero-location-option {
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1fae5;          /* light green — readable on dark bg */
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hero-location-option:hover {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+  }
+  .hero-location-option.selected {
+    background: rgba(34,197,94,0.25);
+    color: #ffffff;
+    font-weight: 600;
+  }
+  .hero-location-option.selected::before {
+    content: '✓';
+    font-size: 0.8rem;
+    color: #86efac;
+  }
+  .hero-location-option:not(.selected)::before {
+    content: '';
+    display: inline-block;
+    width: 0.8rem;   /* same width as ✓ to keep text aligned */
+  }
+  /* Divider between options */
+  .hero-location-option + .hero-location-option {
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+</style>
+
+<!-- Scripts -->
+<script src="data/aqi-data.js"></script>
+<script src="data/hotspot-data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── Custom dropdown logic ───────────────────────────────────────── */
+    const dropdown  = document.getElementById('hero-location-dropdown');
+    const btn       = document.getElementById('hero-location-btn');
+    const list      = document.getElementById('hero-location-list');
+    const label     = document.getElementById('hero-location-label');
+    const arrow     = document.getElementById('hero-dropdown-arrow');
+    const nativeSelect = document.getElementById('hero-location-select');
+    const options   = list ? list.querySelectorAll('.hero-location-option') : [];
+
+    function openDropdown() {
+      list.classList.remove('hidden');
+      arrow.style.transform = 'rotate(180deg)';
+      dropdown.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown() {
+      list.classList.add('hidden');
+      arrow.style.transform = 'rotate(0deg)';
+      dropdown.setAttribute('aria-expanded', 'false');
+    }
+
+    function selectOption(el) {
+      const value = el.dataset.value;
+      // Strip leading checkmark (set via CSS ::before, not in DOM text) — use trim only
+      const text  = el.textContent.trim();
+
+      // Update visual state
+      options.forEach(o => {
+        o.classList.remove('selected');
+        o.setAttribute('aria-selected', 'false');
+      });
+      el.classList.add('selected');
+      el.setAttribute('aria-selected', 'true');
+
+      // Update button label and hidden select
+      label.textContent = text;
+      if (nativeSelect) nativeSelect.value = value;
+
+      closeDropdown();
+      updateHeroCard(value);
+    }
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        list.classList.contains('hidden') ? openDropdown() : closeDropdown();
+      });
+    }
+
+    options.forEach(opt => {
+      opt.addEventListener('click', () => selectOption(opt));
+      // Keyboard support
+      opt.setAttribute('tabindex', '0');
+      opt.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectOption(opt); }
+      });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', e => {
+      if (dropdown && !dropdown.contains(e.target)) closeDropdown();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDropdown();
+    });
+
+    /* ── AQI card update ─────────────────────────────────────────────── */
+    function updateHeroCard(locationId) {
+      const loc = getLocationById(locationId);
+      if (!loc) return;
+      const cat = getAQICategory(loc.aqi);
+      document.getElementById('hero-aqi-value').textContent = loc.aqi;
+      document.getElementById('hero-aqi-label').textContent = cat.label;
+      document.getElementById('hero-pm25').textContent = loc.pm25;
+      document.getElementById('hero-pm10').textContent = loc.pm10;
+      document.getElementById('hero-co2').textContent = loc.co2;
+    }
+
+    // Init with default selection
+    updateHeroCard('jakarta');
+
+    /* ── Animate counters ────────────────────────────────────────────── */
+    setTimeout(() => {
+      window.NapasBumi && NapasBumi.animateCounter(document.getElementById('hero-aqi-count'), 10);
+      window.NapasBumi && NapasBumi.animateCounter(document.getElementById('hero-hotspot-count'), 25);
+      window.NapasBumi && NapasBumi.animateCounter(document.getElementById('hero-user-count'), 1280);
+      NapasBumi.animateCounter(document.getElementById('stat-polluted-cities'), 6);
+      NapasBumi.animateCounter(document.getElementById('stat-hotspots'), 25);
+      NapasBumi.animateCounter(document.getElementById('stat-hectares'), 48700);
+      NapasBumi.animateCounter(document.getElementById('stat-co2-tons'), 124500);
+    }, 300);
+  });
+</script>
+</body>
+</html>

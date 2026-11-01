@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edukasi Lingkungan — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg" style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html" class="nav-link">📋 Laporan</a>
+        <a href="profil.html" class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#1e3a5f,#0ea5e9)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">📚 Edukasi Lingkungan</h1>
+    <p class="text-blue-200 text-sm">Pelajari tentang emisi karbon, karhutla, polusi udara, dan cara kita melindungi bumi.</p>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Search + Filters -->
+  <div class="flex flex-col sm:flex-row gap-3 mb-6">
+    <div class="relative flex-1">
+      <input id="search-article" type="text" placeholder="Cari artikel..." class="form-input pl-10"/>
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+    </div>
+    <div class="flex flex-wrap gap-2" id="article-filters">
+      <button class="tab-btn active" data-cat="all">📋 Semua</button>
+      <button class="tab-btn" data-cat="emisi">💨 Emisi Karbon</button>
+      <button class="tab-btn" data-cat="karhutla">🔥 Karhutla</button>
+      <button class="tab-btn" data-cat="polusi">🌫️ Polusi Udara</button>
+      <button class="tab-btn" data-cat="iklim">🌡️ Perubahan Iklim</button>
+      <button class="tab-btn" data-cat="tips">💡 Tips Hijau</button>
+    </div>
+  </div>
+
+  <!-- Featured article -->
+  <div id="featured-article" class="card p-0 mb-8 overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Articles grid -->
+  <div id="articles-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- No results -->
+  <div id="no-results" class="hidden text-center py-16">
+    <div class="text-5xl mb-4">🔍</div>
+    <p class="text-gray-500">Artikel tidak ditemukan. Coba kata kunci lain.</p>
+  </div>
+
+  <!-- Quick facts -->
+  <div class="card p-6 mb-6">
+    <h2 class="font-bold text-lg text-gray-800 mb-4">⚡ Fakta Cepat Lingkungan Indonesia</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="p-3 rounded-xl" style="background:#f0fdf4">
+        <div class="font-bold text-green-700 text-xl">2.3 ton</div>
+        <div class="text-sm text-gray-600 mt-0.5">Emisi CO₂ per kapita Indonesia per tahun (2022)</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: World Bank</div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:#fff7ed">
+        <div class="font-bold text-orange-700 text-xl">9.6 juta ha</div>
+        <div class="text-sm text-gray-600 mt-0.5">Lahan gambut di Indonesia — terbesar ke-4 di dunia</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: KLHK</div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:#fef9c3">
+        <div class="font-bold text-yellow-700 text-xl">PM2.5 > 35</div>
+        <div class="text-sm text-gray-600 mt-0.5">µg/m³ batas WHO. Banyak kota Indonesia melebihi ini</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: WHO AQG 2021</div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:#e0f2fe">
+        <div class="font-bold text-blue-700 text-xl">420 ppm</div>
+        <div class="text-sm text-gray-600 mt-0.5">Konsentrasi CO₂ atmosfer 2024 — tertinggi dalam 3 juta tahun</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: NOAA</div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:#fce7f3">
+        <div class="font-bold text-pink-700 text-xl">1.5°C</div>
+        <div class="text-sm text-gray-600 mt-0.5">Ambang batas kritis pemanasan global (Perjanjian Paris)</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: IPCC AR6</div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:#f3e8ff">
+        <div class="font-bold text-purple-700 text-xl">7 juta</div>
+        <div class="text-sm text-gray-600 mt-0.5">Kematian dini akibat polusi udara per tahun di dunia</div>
+        <div class="text-xs text-gray-400 mt-1">Sumber: WHO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Read more modal overlay -->
+  <div id="article-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.5)">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 relative">
+      <button onclick="closeArticle()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold">✕</button>
+      <div id="article-modal-content"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Edukasi Lingkungan</p>
+    <p class="text-xs" style="color:#4ade80">Konten berdasarkan sumber ilmiah: IPCC, WHO, KLHK, BMKG</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/edukasi.js"></script>
+</body>
+</html>

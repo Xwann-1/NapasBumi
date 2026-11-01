@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — NapasBumi</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg"
+             style="background:linear-gradient(135deg,#1a6b3c,#22c55e)">🌿</div>
+        <span class="font-bold text-lg" style="color:#1a6b3c">Napas</span><span class="font-bold text-lg" style="color:#0ea5e9">Bumi</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="index.html"      class="nav-link">🏠 Beranda</a>
+        <a href="dashboard.html"  class="nav-link">📊 Dashboard</a>
+        <a href="karhutla.html"   class="nav-link">🔥 Karhutla</a>
+        <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+        <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+        <a href="edukasi.html"    class="nav-link">📚 Edukasi</a>
+        <a href="laporan.html"    class="nav-link">📋 Laporan</a>
+        <a href="profil.html"     class="nav-link">👤 Profil</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" aria-label="Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="index.html" class="nav-link">🏠 Beranda</a>
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="karhutla.html" class="nav-link">🔥 Karhutla</a>
+      <a href="kalkulator.html" class="nav-link">🧮 Kalkulator CO₂</a>
+      <a href="eco-action.html" class="nav-link">🌱 Eco Action</a>
+      <a href="edukasi.html" class="nav-link">📚 Edukasi</a>
+      <a href="laporan.html" class="nav-link">📋 Laporan</a>
+      <a href="profil.html" class="nav-link">👤 Profil</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,#1a6b3c,#0ea5e9)" class="py-8 px-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">📊 Dashboard Kualitas Udara</h1>
+      <p class="text-green-200 text-sm">Pemantauan kualitas udara dan kondisi lingkungan Indonesia</p>
+    </div>
+    <span class="simulated-badge">⚠️ Data Simulasi</span>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Location Selector + Last Updated -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div class="flex items-center gap-3">
+      <label class="font-semibold text-gray-700 text-sm">📍 Pilih Lokasi:</label>
+      <select id="location-select" class="form-select" style="width:auto;min-width:220px">
+        <!-- Populated by JS -->
+      </select>
+    </div>
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <span class="aqi-dot good"></span>
+      <span>Terakhir diperbarui: <span id="last-updated">--</span></span>
+      <button id="refresh-btn" class="btn-primary py-1.5 px-3 text-xs">🔄 Perbarui</button>
+    </div>
+  </div>
+
+  <!-- AQI Hero Card -->
+  <div id="aqi-hero" class="card p-6 mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+    <div class="text-center min-w-[120px]">
+      <div id="aqi-gauge-value" class="text-7xl font-black" style="color:#f97316">128</div>
+      <div id="aqi-gauge-label" class="font-semibold text-sm mt-1 px-3 py-1 rounded-full" style="background:#ffedd5;color:#9a3412">Tidak Sehat (Sensitif)</div>
+    </div>
+    <div class="flex-1">
+      <h2 id="aqi-location-name" class="text-xl font-bold mb-1">Jakarta, DKI Jakarta</h2>
+      <p id="aqi-description" class="text-gray-500 text-sm mb-4">Kualitas udara tidak sehat untuk kelompok sensitif.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="rounded-xl p-3 text-center" style="background:#fef9c3">
+          <div id="val-pm25" class="text-xl font-bold" style="color:#b45309">47.3</div>
+          <div class="text-xs text-gray-500">PM2.5 µg/m³</div>
+        </div>
+        <div class="rounded-xl p-3 text-center" style="background:#ffedd5">
+          <div id="val-pm10" class="text-xl font-bold" style="color:#9a3412">82.1</div>
+          <div class="text-xs text-gray-500">PM10 µg/m³</div>
+        </div>
+        <div class="rounded-xl p-3 text-center" style="background:#e0f2fe">
+          <div id="val-co2" class="text-xl font-bold" style="color:#0369a1">412</div>
+          <div class="text-xs text-gray-500">CO₂ ppm</div>
+        </div>
+        <div class="rounded-xl p-3 text-center" style="background:#fce7f3">
+          <div id="val-no2" class="text-xl font-bold" style="color:#9d174d">38.4</div>
+          <div class="text-xs text-gray-500">NO₂ µg/m³</div>
+        </div>
+      </div>
+    </div>
+    <div class="min-w-[130px]">
+      <div class="rounded-xl p-4 text-center" style="background:#f0fdf4">
+        <div class="text-2xl mb-1">🌡️</div>
+        <div id="val-temp" class="text-xl font-bold text-green-700">31.2°C</div>
+        <div class="text-xs text-gray-500 mt-1">Suhu</div>
+        <div id="val-humidity" class="text-sm font-semibold text-blue-600 mt-2">💧 72%</div>
+        <div class="text-xs text-gray-500">Kelembapan</div>
+        <div id="val-wind" class="text-sm font-semibold text-gray-600 mt-2">🌬️ 8.4 km/h</div>
+        <div class="text-xs text-gray-500">Angin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AQI Scale bar -->
+  <div class="card p-4 mb-6">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm font-semibold text-gray-700">Skala AQI</span>
+      <span class="text-xs text-gray-400">0 — 500</span>
+    </div>
+    <div class="relative h-4 rounded-full overflow-hidden"
+         style="background:linear-gradient(90deg,#22c55e 0%,#eab308 20%,#f97316 40%,#ef4444 60%,#a855f7 80%,#9f1239 100%)">
+      <div id="aqi-indicator" class="absolute top-0 w-3 h-4 bg-white border-2 border-gray-800 rounded-full transition-all duration-500"
+           style="left:25%"></div>
+    </div>
+    <div class="grid grid-cols-6 text-xs text-gray-500 mt-1">
+      <span>Baik</span><span class="text-center">Sedang</span><span class="text-center">Sensitif</span>
+      <span class="text-center">Tdk Sehat</span><span class="text-center">Sgt Tdk Sehat</span><span class="text-right">Berbahaya</span>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <!-- Hourly AQI chart -->
+    <div class="chart-container">
+      <h3 class="font-bold text-gray-700 mb-3">📈 Tren AQI 24 Jam</h3>
+      <canvas id="chart-hourly-aqi" height="220"></canvas>
+    </div>
+    <!-- PM2.5 hourly -->
+    <div class="chart-container">
+      <h3 class="font-bold text-gray-700 mb-3">📊 Konsentrasi PM2.5 (24 Jam)</h3>
+      <canvas id="chart-hourly-pm25" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Monthly trend -->
+  <div class="chart-container mb-6">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="font-bold text-gray-700">📅 Tren Bulanan AQI — Kota Terdampak</h3>
+      <span class="simulated-badge">⚠️ Simulasi</span>
+    </div>
+    <canvas id="chart-monthly" height="100"></canvas>
+  </div>
+
+  <!-- All locations table -->
+  <div class="card p-6 mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-gray-700">🗺️ Status Kualitas Udara — Semua Lokasi</h3>
+      <input id="search-location" type="text" placeholder="Cari kota..." class="form-input" style="width:200px"/>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b" style="border-color:#e8f5ee">
+            <th class="text-left py-2 px-3 font-semibold text-gray-600">Lokasi</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">AQI</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">Status</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">PM2.5</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">PM10</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">Suhu</th>
+            <th class="text-center py-2 px-3 font-semibold text-gray-600">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="locations-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="card p-4">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="font-bold text-gray-700">🗺️ Peta Kualitas Udara Indonesia</h3>
+      <span class="text-xs text-gray-400">Klik marker untuk detail</span>
+    </div>
+    <div id="mini-map" style="height:380px"></div>
+    <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Marker warna menunjukkan kategori AQI. Data simulasi.</p>
+  </div>
+
+  <!-- Health recommendations -->
+  <div class="card p-6 mt-6">
+    <h3 class="font-bold text-gray-700 mb-4">🏥 Rekomendasi Kesehatan</h3>
+    <div id="health-recommendations" class="grid sm:grid-cols-2 gap-4">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-8 px-4 mt-8" style="background:#0a2015">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Dashboard Kualitas Udara</p>
+    <p class="text-xs" style="color:#4ade80">Data simulasi — Sumber: BMKG, KLHK, OpenAQ (simulasi)</p>
+  </div>
+</footer>
+
+<script src="data/aqi-data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
