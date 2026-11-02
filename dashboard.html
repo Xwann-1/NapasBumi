@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8"/>
@@ -52,12 +52,16 @@
 
 <!-- PAGE HEADER -->
 <div style="background:linear-gradient(135deg,#1a6b3c,#0ea5e9)" class="py-8 px-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
     <div>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">📊 Dashboard Kualitas Udara</h1>
       <p class="text-green-200 text-sm">Pemantauan kualitas udara dan kondisi lingkungan Indonesia</p>
     </div>
-    <span class="simulated-badge">⚠️ Data Simulasi</span>
+    <div class="flex items-center gap-3 flex-wrap">
+      <!-- Live status badge — updated by live-data.js -->
+      <span class="live-status-badge simulated-badge">⚠️ Simulasi</span>
+      <span id="live-countdown" class="text-green-200 text-xs"></span>
+    </div>
   </div>
 </div>
 
@@ -192,7 +196,7 @@
       <span class="text-xs text-gray-400">Klik marker untuk detail</span>
     </div>
     <div id="mini-map" style="height:380px"></div>
-    <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Marker warna menunjukkan kategori AQI. Data simulasi.</p>
+    <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Marker warna menunjukkan kategori AQI. Data cuaca dari Open-Meteo, polutan dari WAQI.</p>
   </div>
 
   <!-- Health recommendations -->
@@ -209,11 +213,13 @@
 <footer class="py-8 px-4 mt-8" style="background:#0a2015">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
     <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Dashboard Kualitas Udara</p>
-    <p class="text-xs" style="color:#4ade80">Data simulasi — Sumber: BMKG, KLHK, OpenAQ (simulasi)</p>
+    <p class="text-xs" style="color:#4ade80">Data real-time: WAQI (AQI & polutan) · Open-Meteo (cuaca) · NASA EONET (karhutla)</p>
   </div>
 </footer>
 
 <script src="data/aqi-data.js"></script>
+<script src="data/hotspot-data.js"></script>
+<script src="data/live-data.js"></script>
 <script src="js/app.js"></script>
 <script src="js/dashboard.js"></script>
 </body>

@@ -106,7 +106,7 @@ function populateLocationsTable(filter = '') {
   const tbody = document.getElementById('locations-table-body');
   if (!tbody) return;
 
-  const locs = AQI_DATA.locations.filter(l =>
+  const locs = getAllLiveLocations().filter(l =>
     l.name.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -311,7 +311,10 @@ function buildMap() {
 
 // ── Main Update ───────────────────────────────────────────────────────────────
 function updateDashboard(locationId) {
-  const loc = getLocationById(locationId);
+  // Use live data if available, otherwise fall back to simulation
+  const loc = (typeof getLiveLocationById === 'function')
+    ? getLiveLocationById(locationId)
+    : getLocationById(locationId);
   if (!loc) return;
 
   updateAQIHero(loc);
@@ -319,8 +322,49 @@ function updateDashboard(locationId) {
   buildHourlyPM25Chart(locationId);
   populateLocationsTable(document.getElementById('search-location')?.value || '');
 
-  document.getElementById('last-updated').textContent =
+  // Update last-updated timestamp from live layer
+  const ts = (typeof getLastRefresh === 'function') ? getLastRefresh() :
     new Date().toLocaleString('id-ID', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
+  const lastUpdatedEl = document.getElementById('last-updated');
+  if (lastUpdatedEl) lastUpdatedEl.textContent = ts;
+}
+
+// ── Rebuild Leaflet map with live data ────────────────────────────────────────
+function rebuildMapMarkers() {
+  if (!mapInstance) return;
+  // Remove existing circle markers before re-adding
+  mapInstance.eachLayer(layer => {
+    if (layer instanceof L.CircleMarker) mapInstance.removeLayer(layer);
+  });
+
+  const locs = (typeof getAllLiveLocations === 'function') ? getAllLiveLocations() : AQI_DATA.locations;
+  locs.forEach(loc => {
+    const cat = getAQICategory(loc.aqi);
+    const isLive = loc._liveSource && Object.keys(loc._liveSource).length > 0;
+    const marker = L.circleMarker([loc.lat, loc.lng], {
+      radius: 16,
+      fillColor: cat.color,
+      color: isLive ? '#ffffff' : '#d1d5db',
+      weight: isLive ? 2.5 : 1.5,
+      opacity: 1,
+      fillOpacity: 0.85,
+    }).addTo(mapInstance);
+
+    const liveTag = isLive ? '<span style="color:#22c55e;font-weight:700">● Live</span>' : '<span style="color:#9ca3af">⚠️ Simulasi</span>';
+    marker.bindPopup(`
+      <div style="font-family:Inter,sans-serif;min-width:180px">
+        <div style="font-weight:700;font-size:0.95rem;margin-bottom:2px">${loc.name}</div>
+        <div style="font-size:0.72rem;margin-bottom:6px">${liveTag}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:1.8rem;font-weight:900;color:${cat.color}">${loc.aqi}</span>
+          <span style="background:${cat.color}22;color:${cat.textColor};padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">${cat.label}</span>
+        </div>
+        <div style="font-size:0.8rem;color:#4b5563">PM2.5: <b>${loc.pm25}</b> µg/m³ &nbsp;|&nbsp; PM10: <b>${loc.pm10}</b> µg/m³</div>
+        <div style="font-size:0.8rem;color:#4b5563">CO₂: <b>${loc.co2}</b> ppm &nbsp;|&nbsp; Suhu: <b>${loc.temp}°C</b></div>
+        <div style="font-size:0.75rem;color:#9ca3af;margin-top:6px">${loc.description}</div>
+      </div>
+    `, { maxWidth: 260 });
+  });
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -330,19 +374,40 @@ document.addEventListener('DOMContentLoaded', () => {
   buildMap();
   updateDashboard('jakarta');
 
+  // Register callback: whenever LiveData fires, refresh the current view
+  if (typeof LiveData !== 'undefined') {
+    LiveData.onUpdate(() => {
+      const sel = document.getElementById('location-select');
+      const currentId = sel ? sel.value : 'jakarta';
+      updateDashboard(currentId);
+      rebuildMapMarkers();
+    });
+  }
+
   // Search
   const searchInput = document.getElementById('search-location');
   if (searchInput) {
     searchInput.addEventListener('input', () => populateLocationsTable(searchInput.value));
   }
 
-  // Refresh button
+  // Refresh button — trigger manual live re-fetch
   const refreshBtn = document.getElementById('refresh-btn');
   if (refreshBtn) {
-    refreshBtn.addEventListener('click', () => {
-      const sel = document.getElementById('location-select');
-      updateDashboard(sel ? sel.value : 'jakarta');
-      window.NapasBumi?.showToast('Data berhasil diperbarui! (Simulasi)', 'success');
+    refreshBtn.addEventListener('click', async () => {
+      refreshBtn.disabled = true;
+      refreshBtn.textContent = '⏳ Memuat...';
+      if (typeof refreshAllLiveData === 'function') {
+        await refreshAllLiveData();
+      } else {
+        const sel = document.getElementById('location-select');
+        updateDashboard(sel ? sel.value : 'jakarta');
+      }
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = '🔄 Perbarui';
+      window.NapasBumi?.showToast(
+        window.LiveData?.isLive ? '✅ Data live berhasil diperbarui!' : '⚠️ Menggunakan data simulasi.',
+        window.LiveData?.isLive ? 'success' : 'warning'
+      );
     });
   }
 });

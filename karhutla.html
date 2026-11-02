@@ -56,9 +56,10 @@
       <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">🔥 Monitoring Karhutla</h1>
       <p class="text-orange-200 text-sm">Pemantauan kebakaran hutan dan lahan (karhutla) di Indonesia</p>
     </div>
-    <div class="flex items-center gap-3">
-      <span class="simulated-badge">⚠️ Data Simulasi</span>
-      <span class="text-orange-200 text-xs">Ref: NASA FIRMS / LAPAN</span>
+    <div class="flex items-center gap-3 flex-wrap">
+      <span class="live-status-badge simulated-badge">⚠️ Simulasi</span>
+      <span id="live-countdown" class="text-orange-200 text-xs"></span>
+      <span class="text-orange-200 text-xs">Ref: NASA EONET / FIRMS</span>
     </div>
   </div>
 </div>
@@ -111,7 +112,7 @@
         </div>
       </div>
       <div id="map-karhutla" style="height:400px;border-radius:0.75rem"></div>
-      <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Data titik panas simulasi berdasarkan pola NASA FIRMS.</p>
+      <p class="text-xs text-gray-400 mt-2">Peta menggunakan OpenStreetMap. Titik panas dari NASA EONET (live) · fallback: pola NASA FIRMS.</p>
     </div>
 
     <!-- Province table -->
@@ -234,11 +235,13 @@
 <footer class="py-8 px-4 mt-8" style="background:#0a2015">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
     <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi — Monitoring Karhutla</p>
-    <p class="text-xs" style="color:#4ade80">Data simulasi — Referensi: NASA FIRMS, LAPAN, SiPongi KLHK</p>
+    <p class="text-xs" style="color:#4ade80">Data real-time: NASA EONET (wildfire) · Referensi: NASA FIRMS, SiPongi KLHK</p>
   </div>
 </footer>
 
+<script src="data/aqi-data.js"></script>
 <script src="data/hotspot-data.js"></script>
+<script src="data/live-data.js"></script>
 <script src="js/app.js"></script>
 <script src="js/karhutla.js"></script>
 </body>

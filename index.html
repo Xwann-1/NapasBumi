@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8"/>
@@ -126,7 +126,7 @@
         <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-sm text-white">
           <div class="flex items-center justify-between mb-4">
             <span class="font-semibold">Kualitas Udara Sekarang</span>
-            <span class="simulated-badge">⚠️ Simulasi</span>
+            <span class="live-status-badge simulated-badge">⚠️ Simulasi</span>
           </div>
           <!-- Location selector (custom dropdown for cross-browser readability) -->
           <div id="hero-location-dropdown" class="relative mb-4" role="combobox" aria-haspopup="listbox" aria-expanded="false">
@@ -260,7 +260,7 @@
 <!-- ── STATS SECTION ────────────────────────────────────────────────────────── -->
 <section class="py-16 px-4" style="background:linear-gradient(135deg,#f0fdf4,#e0f2fe)">
   <div class="max-w-7xl mx-auto">
-    <h2 class="text-center text-2xl font-bold mb-10 text-gray-700">Kondisi Lingkungan Indonesia Saat Ini <span class="simulated-badge ml-2">⚠️ Simulasi</span></h2>
+    <h2 class="text-center text-2xl font-bold mb-10 text-gray-700">Kondisi Lingkungan Indonesia Saat Ini <span class="live-status-badge simulated-badge ml-2">⚠️ Simulasi</span></h2>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
 
       <div class="card p-6 text-center">
@@ -408,12 +408,12 @@
           <li>NASA FIRMS — Hotspot</li>
           <li>OpenAQ — AQI API</li>
         </ul>
-        <p class="text-xs mt-3" style="color:#34d399">⚠️ Data saat ini adalah simulasi. Belum terhubung API live.</p>
+        <p class="text-xs mt-3" style="color:#34d399">Data kualitas udara dari OpenAQ & Open-Meteo. Auto-refresh setiap 5 menit.</p>
       </div>
     </div>
     <div class="border-t border-green-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-sm" style="color:#6ee7b7">© 2026 NapasBumi. Dibuat dengan 💚 untuk Bumi yang Lebih Baik.</p>
-      <p class="text-xs" style="color:#4ade80">Data simulasi bukan data real-time. Gunakan sumber resmi untuk keputusan kritis.</p>
+      <p class="text-xs" style="color:#4ade80">Data real-time: WAQI · Open-Meteo · NASA EONET · Auto-refresh setiap 5 menit</p>
     </div>
   </div>
 </footer>
@@ -459,6 +459,7 @@
 <!-- Scripts -->
 <script src="data/aqi-data.js"></script>
 <script src="data/hotspot-data.js"></script>
+<script src="data/live-data.js"></script>
 <script src="js/app.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -530,9 +531,11 @@
       if (e.key === 'Escape') closeDropdown();
     });
 
-    /* ── AQI card update ─────────────────────────────────────────────── */
+    /* ── AQI card update — uses live data when available ────────────── */
     function updateHeroCard(locationId) {
-      const loc = getLocationById(locationId);
+      const loc = (typeof getLiveLocationById === 'function')
+        ? getLiveLocationById(locationId)
+        : getLocationById(locationId);
       if (!loc) return;
       const cat = getAQICategory(loc.aqi);
       document.getElementById('hero-aqi-value').textContent = loc.aqi;
@@ -544,6 +547,22 @@
 
     // Init with default selection
     updateHeroCard('jakarta');
+
+    // Auto-update hero card whenever live data refreshes
+    if (typeof LiveData !== 'undefined') {
+      LiveData.onUpdate(() => {
+        const currentVal = document.getElementById('hero-location-label')?.textContent;
+        const currentOpt = document.querySelector('.hero-location-option.selected');
+        const id = currentOpt ? currentOpt.dataset.value : 'jakarta';
+        updateHeroCard(id);
+        // Update live hotspot counter
+        const hotspots = (typeof getLiveHotspots === 'function') ? getLiveHotspots() : [];
+        if (hotspots.length) {
+          const el = document.getElementById('hero-hotspot-count');
+          if (el) el.textContent = hotspots.length;
+        }
+      });
+    }
 
     /* ── Animate counters ────────────────────────────────────────────── */
     setTimeout(() => {

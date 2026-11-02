@@ -25,7 +25,8 @@ function buildKarhutlaMap() {
     maxZoom: 13,
   }).addTo(karhutlaMap);
 
-  HOTSPOT_DATA.hotspots.forEach(h => {
+  const hotspots = (typeof getLiveHotspots === 'function') ? getLiveHotspots() : HOTSPOT_DATA.hotspots;
+  hotspots.forEach(h => {
     const color = getHotspotColor(h.confidence);
     const marker = L.circleMarker([h.lat, h.lng], {
       radius: h.confidence === 'high' ? 12 : h.confidence === 'medium' ? 9 : 7,
@@ -88,7 +89,8 @@ function renderProvinceList() {
 function populateProvinceFilter() {
   const sel = document.getElementById('filter-province');
   if (!sel) return;
-  const provinces = [...new Set(HOTSPOT_DATA.hotspots.map(h => h.province))].sort();
+  const hotspots = (typeof getLiveHotspots === 'function') ? getLiveHotspots() : HOTSPOT_DATA.hotspots;
+  const provinces = [...new Set(hotspots.map(h => h.province))].sort();
   provinces.forEach(p => {
     const opt = document.createElement('option');
     opt.value = p;
@@ -102,7 +104,8 @@ function renderHotspotTable(confidenceFilter = 'all', provinceFilter = 'all') {
   const tbody = document.getElementById('hotspot-table-body');
   if (!tbody) return;
 
-  const filtered = HOTSPOT_DATA.hotspots.filter(h => {
+  const allHotspots = (typeof getLiveHotspots === 'function') ? getLiveHotspots() : HOTSPOT_DATA.hotspots;
+  const filtered = allHotspots.filter(h => {
     const confOk = confidenceFilter === 'all' || h.confidence === confidenceFilter;
     const provOk = provinceFilter === 'all' || h.province === provinceFilter;
     return confOk && provOk;
@@ -124,8 +127,8 @@ function renderHotspotTable(confidenceFilter = 'all', provinceFilter = 'all') {
           <span class="px-2 py-0.5 rounded-full text-xs font-bold"
                 style="background:${color}22;color:${color}">${confLabel}</span>
         </td>
-        <td class="py-2 px-3 text-center font-semibold" style="color:${color}">${h.frp}</td>
-        <td class="py-2 px-3 text-center text-gray-500 text-xs">${h.date}</td>
+        <td class="py-2 px-3 text-center font-semibold" style="color:${color}">${h.frp != null ? h.frp : '—'}</td>
+        <td class="py-2 px-3 text-center text-gray-500 text-xs">${h.date}${h.source ? ' <span class="text-green-600">●</span>' : ''}</td>
       </tr>
     `;
   }).join('');
@@ -202,6 +205,51 @@ function buildMonthlyHotspotChart() {
   });
 }
 
+// ── Rebuild map markers with live hotspots ────────────────────────────────────
+function rebuildHotspotMarkers() {
+  if (!karhutlaMap) return;
+  karhutlaMap.eachLayer(layer => {
+    if (layer instanceof L.CircleMarker) karhutlaMap.removeLayer(layer);
+  });
+
+  const hotspots = (typeof getLiveHotspots === 'function') ? getLiveHotspots() : HOTSPOT_DATA.hotspots;
+  hotspots.forEach(h => {
+    const color     = getHotspotColor(h.confidence);
+    const confLabel = h.confidence === 'high' ? 'Tinggi' : h.confidence === 'medium' ? 'Sedang' : 'Rendah';
+    const isLive    = !!h.source;
+    const marker    = L.circleMarker([h.lat, h.lng], {
+      radius:      h.confidence === 'high' ? 12 : h.confidence === 'medium' ? 9 : 7,
+      fillColor:   color,
+      color:       isLive ? '#fff' : '#d1d5db',
+      weight:      isLive ? 2.5 : 1.5,
+      opacity:     1,
+      fillOpacity: 0.85,
+    }).addTo(karhutlaMap);
+
+    const liveTag = isLive
+      ? `<span style="color:#22c55e;font-size:0.72rem;font-weight:700">● NASA EONET Live</span>`
+      : `<span style="color:#9ca3af;font-size:0.72rem">⚠️ Simulasi</span>`;
+
+    marker.bindPopup(`
+      <div style="font-family:Inter,sans-serif;min-width:180px">
+        <div style="font-weight:700;margin-bottom:2px">🔥 ${isLive ? h.title || 'Wildfire' : `Titik Panas #${h.id}`}</div>
+        <div style="margin-bottom:6px">${liveTag}</div>
+        <div style="font-size:0.85rem;color:#4b5563;margin-bottom:4px">${h.province}</div>
+        <div style="font-size:0.8rem;color:#374151">
+          Koordinat: ${h.lat.toFixed(4)}, ${h.lng.toFixed(4)}<br/>
+          Kepercayaan: <b style="color:${color}">${confLabel}</b><br/>
+          ${h.frp != null ? `FRP: <b>${h.frp} MW</b><br/>` : ''}
+          Tanggal: ${h.date}
+        </div>
+      </div>
+    `);
+  });
+
+  // Update live stats banner
+  const totalEl = document.getElementById('stat-total-hotspot');
+  if (totalEl) totalEl.textContent = hotspots.length;
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   buildKarhutlaMap();
@@ -210,6 +258,19 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHotspotTable();
   buildDailyHotspotChart();
   buildMonthlyHotspotChart();
+
+  // Register live-data callback
+  if (typeof LiveData !== 'undefined') {
+    LiveData.onUpdate(() => {
+      rebuildHotspotMarkers();
+      const confFilter = document.getElementById('filter-confidence');
+      const provFilter = document.getElementById('filter-province');
+      renderHotspotTable(
+        confFilter ? confFilter.value : 'all',
+        provFilter ? provFilter.value : 'all'
+      );
+    });
+  }
 
   // Filters
   const confFilter = document.getElementById('filter-confidence');
